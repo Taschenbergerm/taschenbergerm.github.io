@@ -12,4 +12,5 @@ Contact
 :status: published
 :author: Marvin Taschenberger
 
-...
+You can conntact me either via `LinkedIn <https://www.linkedin.com/in/taschenberger-marvin-94531bb2/>`_
+or write me directly over `GMail <marvin.taschenberger@gmail.com>`_.
