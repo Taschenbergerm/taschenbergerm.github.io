@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 AUTHOR = 'Marvin Taschenberger'
 SITENAME = 'Marvin Taschenberger '
 SITEURL = ''
+SITELOGO = SITEURL + "/images/marvin.png"
 ARTICLE_URL = 'posts/{date:%Y}/{date:%m}/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{slug}/index.html'
 RELATIVE_URLS = True
@@ -16,7 +17,7 @@ GITHUB_URL = 'http://github.com/taschenbergerm/'
 DEFAULT_LANG = 'en'
 REVERSE_CATEGORY_ORDER = True
 CATEGORY_FEED_RSS = 'feeds/{slug}.rss.xml'
-
+THEME = 'Flex'
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 # CATEGORY_FEED_ATOM = None
@@ -55,9 +56,16 @@ THEME_COLOR_ENABLE_USER_OVERRIDE = True
 
 PYGMENTS_STYLE = 'emacs'
 PYGMENTS_STYLE_DARK = 'monokai'
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
-# Custom Home page
-# DIRECT_TEMPLATES = (('index', 'blog', 'tags', 'categories', 'archives'))
-# PAGINATED_DIRECT_TEMPLATES = (('blog',))
-# TEMPLATE_PAGES = {'home.html': 'index.html',}
+
+COPYRIGHT_YEAR = 2020
+MAIN_MENU = True
+ADD_THIS_ID = "ra-77hh6723hhjd"
+DISQUS_SITENAME = "yoursite"
+# Enable i18n plugin.
+PLUGINS = ["i18n_subsites"]
+# Enable Jinja2 i18n extension used to parse translations.
+JINJA_ENVIRONMENT = {"extensions": ["jinja2.ext.i18n"]}
+
+
+# Default theme language.
+I18N_TEMPLATES_LANG = "en"
