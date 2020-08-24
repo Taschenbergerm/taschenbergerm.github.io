@@ -34,18 +34,34 @@ PLUGINS = [
     'gravatar']
     
 # Blogroll
-LINKS = (('Pelican', 'http://getpelican.com/'),
-         ('Python.org', 'http://python.org/'),
-         ('Jinja2', 'http://jinja.pocoo.org/'),
+LINKS = (
          )
 
 
+SITEMAP = {
+    'format': 'xml',
+    'priorities': {
+        'articles': 0.6,
+        'indexes': 0.6,
+        'pages': 0.5,
+    },
+    'changefreqs': {
+        'articles': 'monthly',
+        'indexes': 'daily',
+        'pages': 'monthly',
+    }
+}
+
 STATIC_PATHS = [
-    'images',
+"images"
     ]
 
 # Social widget
-SOCIAL = (('LinkedIn', 'https://www.linkedin.com/in/taschenberger-marvin-94531bb2/'),)
+SOCIAL = (
+    ('linkedin', 'https://www.linkedin.com/in/taschenberger-marvin-94531bb2/'),
+    ('github', 'https://github.com/taschenbergerm'),
+    ("envelope", "marvin.taschenberger@gmail.com")
+    )
           
 # PYGMENTS_RST_OPTIONS = {'linenos': 'table'}
 DEFAULT_PAGINATION = 10
