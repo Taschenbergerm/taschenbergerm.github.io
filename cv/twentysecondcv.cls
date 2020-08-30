@@ -191,7 +191,7 @@
 			\ifthenelse{\equal{\cvaddress}{}}{}{\textsc{\LARGE\faHome} & \cvaddress\\}
 			\ifthenelse{\equal{\cvnumberphone}{}}{}{\textsc{\LARGE\faMobilePhone} & \cvnumberphone\\}
 			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\LARGE\faLinkedinSquare} & \cvsite\\}
-			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\LARGE\faGithub} & \href{taschenbergerm.github.io}{taschenbergerm}\\}
+			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\LARGE\faGithub} & \href{https://taschenbergerm.github.io}{taschenbergerm}\\}
 			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\LARGE\faEnvelope} & \href{mailto:\cvmail}{\cvmail} }
 		\end{tabular}
 
