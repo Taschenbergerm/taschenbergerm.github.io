@@ -8,6 +8,7 @@
 
 \RequirePackage[sfdefault]{ClearSans}
 \RequirePackage[T1]{fontenc}
+\RequirePackage{fontawesome}
 \RequirePackage{tikz}
 \RequirePackage{xcolor}
 \RequirePackage[absolute,overlay]{textpos}
@@ -186,11 +187,12 @@
 
 		\renewcommand{\arraystretch}{1.6}
 		\begin{tabular}{p{0.5cm} @{\hskip 0.5cm}p{5cm}}
-			\ifthenelse{\equal{\cvdate}{}}{}{\textsc{\Large\icon{\Info}} & \cvdate\\}
-			\ifthenelse{\equal{\cvaddress}{}}{}{\textsc{\Large\icon{\Letter}} & \cvaddress\\}
-			\ifthenelse{\equal{\cvnumberphone}{}}{}{\textsc{\Large\icon{\Telefon}} & \cvnumberphone\\}
-			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\Large\icon{\Mundus}} & \cvsite\\}
-			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\large\icon{@}} & \href{mailto:\cvmail}{\cvmail}}
+			\ifthenelse{\equal{\cvdate}{}}{}{\textsc{\LARGE\faInfo} & \cvdate\\}
+			\ifthenelse{\equal{\cvaddress}{}}{}{\textsc{\LARGE\faHome} & \cvaddress\\}
+			\ifthenelse{\equal{\cvnumberphone}{}}{}{\textsc{\LARGE\faMobilePhone} & \cvnumberphone\\}
+			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\LARGE\faLinkedinSquare} & \cvsite\\}
+			\ifthenelse{\equal{\cvsite}{}}{}{\textsc{\LARGE\faGithub} & \href{taschenbergerm.github.io}{taschenbergerm}\\}
+			\ifthenelse{\equal{\cvmail}{}}{}{\textsc{\LARGE\faEnvelope} & \href{mailto:\cvmail}{\cvmail} }
 		\end{tabular}
 
 		%------------------------------------------------
