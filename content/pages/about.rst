@@ -16,6 +16,3 @@ About me
 Hi I am Marvin and I'm Data engineer / Software architect. At work i love to solve problems and help other people using  my code and the knowledge i acquired so far. When i code or supervise other I make sure that the human always comes first and a machine only second. This counts for the style, the architecture or the usability. Moreover, I am always on the lookout to find new and interesting frameworks and projects which might help me to solve the next problems in an even better way. 
 
 After work i enjoy to cook while listening to either some pod-casts or some metal music and on weekends I love to share a wine or beer with some friends until the chaos starts again on Monday. 
-
-For a detailed resume please see `my CV <{static}/images/taschenberger.pdf>`_
-
