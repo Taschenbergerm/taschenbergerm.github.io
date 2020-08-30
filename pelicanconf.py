@@ -59,8 +59,8 @@ STATIC_PATHS = [
 # Social widget
 SOCIAL = (
     ('linkedin', 'https://www.linkedin.com/in/taschenberger-marvin-94531bb2/'),
+    ('stack-overflow', 'https://stackoverflow.com/users/6077548/marvin-taschenberger'),
     ('github', 'https://github.com/taschenbergerm'),
-    ('stackoverflow', 'https://stackoverflow.com/users/6077548/marvin-taschenberger'),
     ("envelope", "marvin.taschenberger@gmail.com")
     )
           
