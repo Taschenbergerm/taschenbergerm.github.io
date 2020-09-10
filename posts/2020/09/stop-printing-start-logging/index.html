@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro|Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="../../../../theme/stylesheet/style.min.css">
+
+    <link id="dark-theme-style" rel="stylesheet" type="text/css"
+          media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+    href="../../../../theme/stylesheet/dark-theme.min.css">
+
+    <link id="pygments-dark-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: dark), (prefers-color-scheme: no-preference)"
+          href="../../../../theme/pygments/monokai.min.css">
+    <link id="pygments-light-theme" rel="stylesheet" type="text/css"
+              media="(prefers-color-scheme: light)"
+          href="../../../../theme/pygments/emacs.min.css">
+
+
+  <link rel="stylesheet" type="text/css" href="../../../../theme/font-awesome/css/fontawesome.css">
+  <link rel="stylesheet" type="text/css" href="../../../../theme/font-awesome/css/brands.css">
+  <link rel="stylesheet" type="text/css" href="../../../../theme/font-awesome/css/solid.css">
+
+
+
+
+
+
+
+<meta name="author" content="Marvin Taschenberger" />
+<meta name="description" content="" />
+<meta name="keywords" content="python, logging, loguru">
+
+
+<meta property="og:site_name" content="Marvin Taschenberger "/>
+<meta property="og:title" content="Stop Printing - Start Logging"/>
+<meta property="og:description" content=""/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="../../../../posts/2020/09/stop-printing-start-logging/"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2020-09-05 16:39:00+02:00"/>
+<meta property="article:modified_time" content="2020-09-05 16:39:00+02:00"/>
+<meta property="article:author" content="../../../../author/marvin-taschenberger.html">
+<meta property="article:section" content="production-code"/>
+<meta property="article:tag" content="python"/>
+<meta property="article:tag" content="logging"/>
+<meta property="article:tag" content="loguru"/>
+<meta property="og:image" content="/images/marvin.png">
+
+  <title>Marvin Taschenberger  &ndash; Stop Printing - Start Logging</title>
+
+</head>
+<body >
+  <aside>
+    <div>
+      <a href="../../../..">
+        <img src="/images/marvin.png" alt="" title="">
+      </a>
+
+      <h1>
+        <a href="../../../.."></a>
+      </h1>
+
+
+
+      <nav>
+        <ul class="list">
+
+
+              <li>
+                <a target="_self"
+                   href="../../../../pages/about-me.html#about-me">
+                  About me
+                </a>
+              </li>
+              <li>
+                <a target="_self"
+                   href="../../../../pages/contact.html#contact">
+                  Contact
+                </a>
+              </li>
+              <li>
+                <a target="_self"
+                   href="../../../../pages/cv.html#cv">
+                  Curriculum Vitae
+                </a>
+              </li>
+
+        </ul>
+      </nav>
+
+      <ul class="social">
+          <li>
+            <a  class="sc-linkedin" href="https://www.linkedin.com/in/taschenberger-marvin-94531bb2/" target="_blank">
+              <i class="fab fa-linkedin"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-stack-overflow" href="https://stackoverflow.com/users/6077548/marvin-taschenberger" target="_blank">
+              <i class="fab fa-stack-overflow"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-github" href="https://github.com/taschenbergerm" target="_blank">
+              <i class="fab fa-github"></i>
+            </a>
+          </li>
+          <li>
+            <a  class="sc-envelope" href="marvin.taschenberger@gmail.com" target="_blank">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </li>
+      </ul>
+    </div>
+
+  </aside>
+  <main>
+
+    <nav>
+      <a href="../../../..">Marvin Taschenberger</a>
+
+
+
+    </nav>
+
+<article class="single">
+  <header>
+      
+    <h1 id="stop-printing-start-logging">Stop Printing - Start Logging</h1>
+    <p>
+      Posted on Sa 05 September 2020 in <a href="../../../../category/production-code.html">production-code</a>
+
+    </p>
+  </header>
+
+
+  <div>
+    <p>One Lesson that everyone will learn (maybe the hard way) is - that programs, once it leaves the development stage and your IDE - anything can happen to it. No matter how much effort you put into it, how many bugs you fixed, errors you anticipated - something will cause your program to behave differently from what you intended, maybe even breaking it completely.
+In this cases you will need to figure out:</p>
+<ol class="arabic simple">
+<li>Is my program still alive</li>
+<li>What is it currently doing / what was it doing</li>
+<li>In some cases - what where it's last words ?</li>
+</ol>
+<p>Since theory and everything is nice - lets make a little more practical by using an example that we will transform:</p>
+<pre class="code python literal-block">
+<span class="sd">&quot;&quot;&quot;Start situation for Not-Logged-Code.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Do some instable magic indefinetly and hope nothing breaks.&quot;&quot;&quot;</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2"> - Start cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">do_unstable_magick</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="si">}</span><span class="s2"> -  Finished cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">do_unstable_magick</span><span class="p">(</span><span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">counter</span> <span class="o">/</span> <span class="mi">10000</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.0001</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.5</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+<p>Note that most of the output is due to print and the longer the code runs the more likely it becomes that the <tt class="docutils literal">do_unstable_magic</tt> function will create an error - as in real life.</p>
+<p>If now this programs crashes at some point and someone tells you to investigate and fix what went wrong. As you cannot recreate what has happened without any informations with this program you would be screwed and domed to make some try and error locally. As this is neither efficient, productive nor fun - we need to think about this scenarios already in the development stage. Seemingly the <tt class="docutils literal">print</tt> function was not a good approach. It did work quite nicely while we were still in our local environment and executing the code manually but there are several disadvantages these statements do have:</p>
+<ol class="arabic simple">
+<li>They write only to std.out - are only visible in an interactive session</li>
+<li>There is no way to differentiate base on severity or importance of information</li>
+<li>You cannot silence them easily if you create a library or similar</li>
+</ol>
+<p>The proper way to handle this would be to use a so called <tt class="docutils literal">Logger</tt>. These kind of object offer a more versatile way of handling information output by allowing for differentiation of information based on their priority ( e.g. debug, info, warning, error ...). Further we can also allow for multiple output-formats - also known as <tt class="docutils literal">sinks</tt>. The most basic sink that we already used is the <tt class="docutils literal">std.out</tt> - that is what  print is using.</p>
+<p>Let us look at a simple example:</p>
+<pre class="code python literal-block">
+<span class="kn">import</span> <span class="nn">logging</span>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'This message will neither be visble nor in the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'This messgae will printed and written to the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'And this, too'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">'this as well'</span><span class="p">)</span>
+</pre>
+<p>Simply importing <tt class="docutils literal">logging</tt> and configuring it with the <tt class="docutils literal">baseConfig</tt> function enables us to directly replace any print with logging. The next best feature.</p>
+<p>Let us take this to our example code an directly take the first step of improvement.</p>
+<pre class="code python literal-block">
+<span class="sd">&quot;&quot;&quot;Step 1 of refactoring Not-Logged-Code.
+1. We import the logging module.
+2. We give it some basic config.
+3. We replace prints with different levels of logs.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span> <span class="c1"># added logging</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Do some instable magic indefinetly and hope nothing breaks.&quot;&quot;&quot;</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span> <span class="c1"># create a baseconfiguration s.t. we cann now log</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> - Start cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># changed from print to info</span>
+        <span class="n">do_unstable_magick</span><span class="p">(</span><span class="n">cycle</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">nos</span><span class="p">()</span><span class="si">}</span><span class="s2"> -  Finished cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">do_unstable_magick</span><span class="p">(</span><span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">counter</span> <span class="o">/</span> <span class="mi">10000</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.0001</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span> <span class="c1"># changed from print to debug</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+<p>Though that was easy and we now get more information like time and level - but it still would have prevented our lack of information.</p>
+<p>So next we want save our output and therefor need to use a <tt class="docutils literal"><span class="pre">File-Sink</span></tt>. That way messages wont be lost but preserved in a log-file. To achieve this we only add the  <tt class="docutils literal">filename</tt> argument and set the respective level - done.</p>
+<pre class="code python literal-block">
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">'simple_logging.log'</span><span class="p">,</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'This message will neither be visble nor in the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'This messgae will printed and written to the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'And this, too'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">'this as well'</span><span class="p">)</span>
+</pre>
+<p>Now things start to get interesting from here. As we are able to differentiating between levels ( debug, etc) and sinks (<tt class="docutils literal">std.out</tt>, files, etc.) we could combine both and filter which message should go where and even duplicate <tt class="docutils literal">sinks</tt> for different levels. As an example we can save our information that we need for debugging to a log file that we can read later while only those on an error gets printed directly. This combination allows for many different combinations e.g.  having multiple file-sinks one for errors and one for debug statements which you can then treat separately.</p>
+<pre class="code python literal-block">
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">file_sink</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s2">&quot;filehandler.log&quot;</span><span class="p">)</span>
+<span class="n">file_sink</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+<span class="n">std_sink</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">std_sink</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;SinkLogger&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">std_sink</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_sink</span><span class="p">)</span>
+
+
+<span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">'This message will neither be visble nor in the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">'This messgae written to the file '</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">'This message will be printed and written'</span><span class="p">)</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">'this as well'</span><span class="p">)</span>
+</pre>
+<p>Now we can take the next big step with our project and enable the mechanism that can save us time and motivation in case of an issues:</p>
+<pre class="code python literal-block">
+<span class="sd">&quot;&quot;&quot;Step 2 of refactoring Not-Logged-Code.
+1. We now add sinks to differentiate which information should be seen where.
+2. we use the created logger explicitly and not the genereal module anymore.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span> <span class="c1"># added logging</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Do some instable magic indefinetly and hope nothing breaks.&quot;&quot;&quot;</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">configure_logger</span><span class="p">()</span> <span class="c1"># create a baseconfiguration s.t. we cann now log</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> - Start cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># changed from print to info</span>
+        <span class="n">do_unstable_magick</span><span class="p">(</span><span class="n">cycle</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">nos</span><span class="p">()</span><span class="si">}</span><span class="s2"> -  Finished cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">configure_logger</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">:</span>
+    <span class="n">file_sink</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s2">&quot;debug.log&quot;</span><span class="p">)</span>
+    <span class="n">file_sink</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+
+    <span class="n">file_sink</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s2">&quot;info.log&quot;</span><span class="p">)</span>
+    <span class="n">file_sink</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+    <span class="n">std_sink</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+    <span class="n">std_sink</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;SinkLogger&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">std_sink</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_sink</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logger</span>
+
+<span class="k">def</span> <span class="nf">do_unstable_magick</span><span class="p">(</span><span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">counter</span> <span class="o">/</span> <span class="mi">10000</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.0001</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span> <span class="c1"># changed from print to debug</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+<p>Now all we need to do is to deploy the project and we will automatically keep a long history of errors to analyze the reliability or debugging. But writing every single debug information might cause the file to explode?! If we let this project run for weeks or month we will run into two issues if the file will grow tremendously large:</p>
+<ol class="arabic simple">
+<li>reading, copying or filtering  it will become slow if not impossible</li>
+<li>the file might grow too large for the file system and cause the system to crash</li>
+</ol>
+<p>Therefore we need to start thinking about a cleanup. We can either do that on the system level or within our code. But as most of the obvious task in python this is already wrapped together in an (awesome) library called <tt class="docutils literal">loguru</tt>. Personally, i haven been working with it since a long time and it is part of nearly all my productional services as it is easy to use and reduces the boilerplate code to a minimum. Moreover it ensures that my logging-practice stays homogeneous through out my projects. This library was original developed by delgan and i highly recommend you to check the <a class="reference external" href="https://github.com/Delgan/loguru">repo</a> out.</p>
+<p>All we need to do now is to  install <tt class="docutils literal">loguru</tt> using <tt class="docutils literal">pip install loguru</tt>   and specify two arguments - one for rotation and  one for retention - done.</p>
+<pre class="code python literal-block">
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;debug.log&quot;</span><span class="p">,</span><span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;10MB&quot;</span><span class="p">,</span> <span class="n">retention</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;error.log&quot;</span><span class="p">,</span><span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;100MB&quot;</span><span class="p">,</span> <span class="n">retention</span><span class="o">=</span><span class="s2">&quot;100 days&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;ERROR&quot;</span><span class="p">)</span>
+
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;&quot;&quot; This log will only show up in the debug log which has a shorter retention time
+        As such we do not need to worry that this script will create too many log file and the hard drive might get to crowded
+        Even if we print this  way to often &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;&quot; Same goes for this - so we do not need to worry too much about the filesize - even with the loop
+     As we only keep five files with this much data we can log to our hearts content without worry &quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Moreover we could also fill the compress argument which then  compresses all files rotations (or after close) in e.g. gzip or lzma ( or many more) &quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;This message will pop up in the error log and as such be available for way longer - so we can see long passt error &quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre>
+<p>Now our log file will automatically rotate every day and as such create a daily debug log. This ensures that the file itself does not grow to big to handle it properly while the retention keeps deleting files older than a week s.t. the do not take too much space on disk.</p>
+<p>Finally we can now finish our project by refactoring our code using loguru as following:</p>
+<pre class="code python literal-block">
+<span class="sd">&quot;&quot;&quot;Step 4 of refactoring Not-Logged-Code.
+0. We realized that this is to much boilerplate code that noone wants to read. .
+1. Import the loguru model ( after pip-installing it).
+2. We finish this by adding a retention and rotation &quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">loguru._logger</span> <span class="kn">import</span> <span class="n">Logger</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Do some instable magic indefinetly and hope nothing breaks.&quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;debug.log&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span><span class="p">,</span> <span class="n">retention</span><span class="o">=</span><span class="s2">&quot;2 weeks&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;1 day&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;info.log&quot;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="n">retention</span><span class="o">=</span><span class="s2">&quot;2 month&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;1 week&quot;</span><span class="p">)</span>
+    <span class="n">cycle</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="si">}</span><span class="s2"> - Start cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="c1"># changed from print to info</span>
+        <span class="n">do_unstable_magick</span><span class="p">(</span><span class="n">cycle</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">nos</span><span class="p">()</span><span class="si">}</span><span class="s2"> -  Finished cycle </span><span class="si">{</span><span class="n">cycle</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">do_unstable_magick</span><span class="p">(</span><span class="n">counter</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">logger</span><span class="p">:</span> <span class="n">Logger</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">-=</span> <span class="n">counter</span> <span class="o">/</span> <span class="mi">10000</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.0001</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">EnvironmentError</span><span class="p">(</span><span class="s2">&quot;Something went wrong&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span><span class="mf">0.5</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span> <span class="c1"># changed from print to debug</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Cycle </span><span class="si">{counter}</span><span class="s2"> was unsuccessful&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre>
+
+  </div>
+  <div class="tag-cloud">
+    <p>
+      <a href="../../../../tag/python.html">python</a>
+      <a href="../../../../tag/logging.html">logging</a>
+      <a href="../../../../tag/loguru.html">loguru</a>
+    </p>
+  </div>
+
+  <div class="center social-share">
+    <p>Like this article? Share it with your friends!</p>
+    <div class="addthis_native_toolbox"></div>
+    <div class="addthis_sharing_toolbox"></div>
+    <div class="addthis_inline_share_toolbox"></div>
+  </div>
+
+
+    <div class="addthis_relatedposts_inline"></div>
+
+
+<!-- Disqus -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'yoursite';
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>
+    Please enable JavaScript to view comments.
+</noscript>
+<!-- End Disqus -->
+</article>
+
+    <footer>
+<p>&copy;  2020</p>
+<p>
+Built with <a href="http://getpelican.com" target="_blank">Pelican</a> using <a href="http://bit.ly/flex-pelican" target="_blank">Flex</a> theme
+  <span class="footer-separator">|</span>
+  Switch to the <a href="javascript:void(0)" onclick="theme.switch(`dark`)">dark</a> | <a href="javascript:void(0)" onclick="theme.switch(`light`)">light</a> | <a href="javascript:void(0)" onclick="theme.switch(`browser`)">browser</a> theme
+  <script id="dark-theme-script"
+          src="../../../../theme/dark-theme/dark-theme.min.js"
+          data-enable-auto-detect-theme="True"
+          data-default-theme="dark"
+          type="text/javascript">
+  </script>
+</p>    </footer>
+  </main>
+
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-77hh6723hhjd" async="async"></script>
+
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Blog",
+  "name": " Marvin Taschenberger  ",
+  "url" : "../../../..",
+  "image": "/images/marvin.png",
+  "description": ""
+}
+</script>
+
+
+</body>
+</html>
