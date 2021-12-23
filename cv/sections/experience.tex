@@ -5,39 +5,32 @@
 %====================
 % EXPERIENCE A
 %====================
-\subsection{{Data Engineer \hfill Dec 2018 --- Present}}
+\subsection{{Data Engineer / Data Architect \hfill Dec 2018 --- Present}}
 \subtext{Solactive \hfill Frankfurt}
-
-\subsubsection*{{Outline}}
 
 \subsubsection*{{Key Responsibilities}}
 
 \begin{zitemize}
-\item Development of various frameworks, packages and services connecting to REST API’s for data ingestion
-			
-			\item Design and Implementation of REST API with distributed workers and monitoring
-			
-			\item Creation of flexible schedulers and distributed services using celery
-			
-			\item Construction of a small near-real time streaming engine for crypto-based indices
-			
-			\item Development of new and refactoring of services to an event-based and service oriented architecture
-			
-			\item Designing several dashboards for monitoring and operation using dash
-			
-			\item Implementation of distributed data-pipelines using dask
-			
-			\item Web-automation using Selenium.
-			
-			\item Training of business-user, analysts and developers in python and general programming
-			
-			\item Supervision  and  training  of  the  departments  software-engineering interns
-			
-			\item Conducting interviews and coding-tests
 
-			\item Representation of the company and department on job-fairs
+	\item Design, implementation and enforcement of several ITIL conform standards regarding configuration (CM), test (TM) and release (RM) management. The CM standards were used to point the developers in a direct of a proper micro-service (12-Factor-App) inspired design and promote decoupling, cohesion and SOLID-principles to increase the quality and lower the cost of development. Combining with the new Test-Guidelines to ensure a properly tested software (Unit \& Integration Test), the integration into the landscape (system test) and the inclusion of the business user (User Acceptance Test). Increasing both confidence with new features as well as relieve some pressure from the developers. Adding the release management, including a controlled release cycle, communication, preparation and execution reduced the amount of errors  significantly. 
 
+	\item Creating several utilities and deployment templates to implement the new Configuration, Test and Release Management. This included building several CI/CD pipelines that allowed for an automated deployment and  of quality standards. As well as the creation of several helpers (based on cookiecutter) that create boilerplate code and folder structures to ease the change for developers. 
+
+	\item Designing multiple micro-service based end-to-end data pipelines using kafka-stream to build a data warehouse and inject data points into the life-calculation engine. The origin of the data varied - reaching from open data available through the web up to proprietary data via GUI's. Processes were triggered via events over Kafka-Stream and listened to using pythons Faust Framework. All schedules and configurations were saved in a replicated MongoDB triggered via pythons Advances Scheduler. 
+
+	\item Building a data warehouse for complex-data including data streams and feeds from multiple vendors including end-of-day as well as intraday marketdata. The sources for these reached through various technologies - Restful API's, web scraping as well as ftp/sftps delivery. Moreover as the universe of requested data needed to be flexible - multiple components allowed the interaction of business users as well as automated housekeeping. Transparency was achieved view logging through elastic search and displayed via dashboards build with Dash and Grafana allowing both business users as well as service operation experts to closely monitor the state of the systems. The data as well as the operation procedures were made available due to  REST-Interfaces using FastAPI and Celery.
+
+	\item Development of a cryptocurrency Index Calculation engine for indices and inavs based on CoinMarketCap's API. Schedulers and workers were created using Celery and connected via RabbitMQ deployed within a docker swarm. 
+
+	\item Training of business-user, analysts and developers in python and general programming
+	
+	\item Supervision  and  training  of  the  departments  software-engineering interns and new joiners
+	
 \end{zitemize}
+
+\subsubsection*{{Technologies}}
+
+Python, Kafka, Clickhouse, MySQL, MongoDB, Docker, RabbitMQ, Jenkins, Redis, Airflow, Rundeck, Linux, Grafan, EFK-Stack \vspace{1em}
 
 %====================
 % EXPERIENCE B
@@ -46,19 +39,22 @@
 \subsection{{Consultant Data Scientist \hfill Oct 2017 --- Nov 2018}}
 \subtext{STATWORX \hfill Frankfurt}
 
-\subsubsection*{{Outline}}
 
 \subsubsection*{{Key Responsibilities}}
 
 \begin{zitemize}
-\item Support and Manage of major projects.
+\item Support and Manage of major projects by creating architectures, ML models,data pipelines and presentations. \item Holding a biweekly python workshop to train fellow employees.  
 \item Numerous side projects \begin{itemize}
 	\item development of a AI based Tool to estimate the the success rate for invites on business portal like Linked-In or Xing.
-	\item Engineering of software to simplify deployment of AI in production environments 
-	\item concepts and realization of database-systems and data-pipelines 
+	\item support of a development to classify and cost estimation of damages on building based on drone images
+	\item consulting clients by providing concepts of database-systems, data-pipelines and integration of data science into their product and project life-cycle.s
 \end{itemize}
 \end{zitemize}
 
+\subsubsection*{{Technologies}}
+R, Python,Docker, PostgreSQL, Linux, Google Cloud
+
+\vspace{1em}
 
 \subsection{{Project: Multinational retailer  \hfill Oct.  2017 --- Nov. 2018 }}
 \subtext{STATWORX \hfill Frankfurt}
@@ -75,4 +71,7 @@ Creation of a web based Application to evaluate and forecast customers effect on
 
 \end{zitemize}
 
+
+\subsubsection*{{Technologies}}
+R, Python, Airflow, Docker, PostgreSQL, Linux, Azure, Google Cloud
 \end{document}
