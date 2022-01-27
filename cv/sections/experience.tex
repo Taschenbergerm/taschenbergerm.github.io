@@ -5,32 +5,52 @@
 %====================
 % EXPERIENCE A
 %====================
-\subsection{{Data Engineer / Data Architect \hfill Dec 2018 --- Present}}
+\subsection{{Data Architect \hfill Jun 2021 --- Present}}
+\subsection{{Data Engineer \hfill Dec 2018 --- Jun 2021}}
 \subtext{Solactive \hfill Frankfurt}
 
 \subsubsection*{{Key Responsibilities}}
 
 \begin{zitemize}
 
-	\item Design, implementation and enforcement of several ITIL conform standards regarding configuration (CM), test (TM) and release (RM) management. The CM standards were used to point the developers in a direct of a proper micro-service (12-Factor-App) inspired design and promote decoupling, cohesion and SOLID-principles to increase the quality and lower the cost of development. Combining with the new Test-Guidelines to ensure a properly tested software (Unit \& Integration Test), the integration into the landscape (system test) and the inclusion of the business user (User Acceptance Test). Increasing both confidence with new features as well as relieve some pressure from the developers. Adding the release management, including a controlled release cycle, communication, preparation and execution reduced the amount of errors  significantly. 
 
-	\item Creating several utilities and deployment templates to implement the new Configuration, Test and Release Management. This included building several CI/CD pipelines that allowed for an automated deployment and  of quality standards. As well as the creation of several helpers (based on cookiecutter) that create boilerplate code and folder structures to ease the change for developers. 
 
-	\item Designing multiple micro-service based end-to-end data pipelines using kafka-stream to build a data warehouse and inject data points into the life-calculation engine. The origin of the data varied - reaching from open data available through the web up to proprietary data via GUI's. Processes were triggered via events over Kafka-Stream and listened to using pythons Faust Framework. All schedules and configurations were saved in a replicated MongoDB triggered via pythons Advances Scheduler. 
+	\item Designing multiple micro-service based end-to-end data pipelines using Kafka-stream and pythons Faust Framework.
+	
+	\item Onboarding several vendors for market data using various delivery methods and data structures. Reaching from on-demand APIs to complex formats delivered via file protocols
 
-	\item Building a data warehouse for complex-data including data streams and feeds from multiple vendors including end-of-day as well as intraday marketdata. The sources for these reached through various technologies - Restful API's, web scraping as well as ftp/sftps delivery. Moreover as the universe of requested data needed to be flexible - multiple components allowed the interaction of business users as well as automated housekeeping. Transparency was achieved view logging through elastic search and displayed via dashboards build with Dash and Grafana allowing both business users as well as service operation experts to closely monitor the state of the systems. The data as well as the operation procedures were made available due to  REST-Interfaces using FastAPI and Celery.
+	\item Building a data warehouse for complex-data including data streams and feeds from multiple vendors including end-of-day as well as intraday market data. 
 
-	\item Development of a cryptocurrency Index Calculation engine for indices and inavs based on CoinMarketCap's API. Schedulers and workers were created using Celery and connected via RabbitMQ deployed within a docker swarm. 
-
+	\item Developing of a cryptocurrency-calculation-engine for indices and ETFs based on CoinMarketCap's API.
+	
+	\item Establishing a Log-workflow with standards log utilities, EFK-Stack and Grafana
+	
+	\item Implementing a Full-Stack Dashboard to monitor data-pipelines and view process statuses for business teams via python and dash
+	
+	\item Providing several guidelines and documentations to point the developers in a direct of a proper micro-service (12-Factor-App) inspired design and promote decoupling, cohesion and SOLID-principles to increase the quality and lower the cost of development. 
+	
+	
+	\item  Composing guidelines for local testing (Unit \& Integration Test), system testing and User-Acceptance-Test(UAT) and their integration in the service life-cycle.
+	
+	\item Creating several utilities and deployment templates to implement the new Configuration, Test and Release Management. Including building several CI/CD pipelines as well as the creation of several helpers (based on cookiecutter) that create boilerplate code and folder structures. 
+	
+	\item Designing, implementing and enforcing of several ITIL conform standards regarding configuration (CM), test (TM) and release (RM) management.
+	
+	
+	\item Increasing process transparency via openTelemetry, Jaeger and Grafana 
+	
+	\item Establishing and maintaining standards for software, code and review quality 
+	
+	
+		
 	\item Training of business-user, analysts and developers in python and general programming
 	
-	\item Supervision  and  training  of  the  departments  software-engineering interns and new joiners
-	
+	\item Hiring, supervising  and  training  of  the  departments  software-engineering interns and new joiners
 \end{zitemize}
 
 \subsubsection*{{Technologies}}
 
-Python, Kafka, Clickhouse, MySQL, MongoDB, Docker, RabbitMQ, Jenkins, Redis, Airflow, Rundeck, Linux, Grafan, EFK-Stack \vspace{1em}
+Python, Kafka, Clickhouse, MySQL, MongoDB, Docker, RabbitMQ, Jenkins, Redis, Airflow, Rundeck, Linux, Grafana, EFK-Stack \vspace{1em}
 
 %====================
 % EXPERIENCE B
@@ -43,7 +63,7 @@ Python, Kafka, Clickhouse, MySQL, MongoDB, Docker, RabbitMQ, Jenkins, Redis, Air
 \subsubsection*{{Key Responsibilities}}
 
 \begin{zitemize}
-\item Support and Manage of major projects by creating architectures, ML models,data pipelines and presentations. \item Holding a biweekly python workshop to train fellow employees.  
+\item Support and Manage of major projects by creating architectures, ML models, data pipelines and presentations. \item Holding a biweekly python workshop to train fellow employees.  
 \item Numerous side projects \begin{itemize}
 	\item development of a AI based Tool to estimate the the success rate for invites on business portal like Linked-In or Xing.
 	\item support of a development to classify and cost estimation of damages on building based on drone images
@@ -62,12 +82,12 @@ R, Python,Docker, PostgreSQL, Linux, Google Cloud
 Creation of a web based Application to evaluate and forecast customers effect on changes in the pricing strategy. The underlying simulation supported either models either based on statistical elasticity or on a random forest. 
 \subsubsection*{{Key Responsibilities}}
 \begin{zitemize} 
-	\item Extending and fine tuning the statistical and machine learning models by enriching the underlying business model and data pipelines. 
-	\item Designing the technical architecture to bring the manual POC into production 
-	\item Automation of the data preparation via R , python and airflow and deploy it via docker on premises. 
-	\item Design and implement the Full-Stack application using R, R-Shiny, JavaScript.     
-	\item Deployed the Tech-Stack on multiple platform over its lifetime including on-prem, Azure and Google Cloud.
-	\item Hold trainings, workshops and presentations for the clients to handle the application from the business, technical and management perspective. 
+	\item Extending and fine-tuning the statistical and machine learning models by enriching the underlying business model and data pipelines. 
+	\item Designing the technical architecture to bring the POC into production 
+	\item Automating of the data preparation via R, python and airflow and deploy it via docker on premises. 
+	\item Design and implementing the Full-Stack application using R, R-Shiny and JavaScript.     
+	\item Deploying the Tech-Stack on multiple platform over its lifetime including on-prem, Azure and Google Cloud.
+	\item Holding trainings, workshops and presentations for the clients to handle the application from the business, technical and management perspective. 
 
 \end{zitemize}
 
